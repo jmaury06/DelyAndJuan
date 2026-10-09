@@ -10,8 +10,12 @@ Estado: implementado.
 - **R5. Contenido** de los novios (`src/config/wedding.ts`): mensaje al invitado, frase de los novios, lugar (Salón de eventos Dayder, Calle 76 # 44 - 45, 6:30 PM), etiqueta formal (vestido largo / smoking negro), tonos reservados, sin niños, lluvia de sobres + QR, agradecimiento.
 - **R6. Fecha** viernes 20 de noviembre de 2026, 6:30 PM (UTC-5). Contador y calendario apuntan a esa hora.
 
+## Iteración 2.1
+- Versículo Eclesiastés 4:12 (RVR1960) antes del mensaje para el invitado.
+- Frase final al cierre de la invitación.
+- Las palabras de agradecimiento se muestran en el modal al confirmar asistencia (la confirmación se guarda en `invitados.confirma`).
+- QR Bre-B real con botón para copiar la llave. Canción: YouTube `lLSie7e6d5E`.
+
 ## Pendientes
-1. QR real del regalo (hoy `qr-regalo.svg` es placeholder).
 2. Horarios del itinerario: estimados a partir de las 6:30 PM, confirmar con los novios.
-3. Canción: se mantiene la de YouTube `_QWZQh0YYWA` de la iteración 1; confirmar.
 4. "Sin fotos" se interpretó como "sin sección de fotos". Si significa ceremonia sin celulares, agregar aviso.

@@ -1,7 +1,9 @@
 import { motion, AnimatePresence } from "framer-motion";
 import { X } from "lucide-react";
+import { createPortal } from "react-dom";
 import FloralCluster from "@/components/wedding/floral/FloralCluster";
 import Divider from "@/components/wedding/Divider";
+import { WEDDING } from "@/config/wedding";
 
 interface ConfirmationModalProps {
   isOpen: boolean;
@@ -12,11 +14,12 @@ interface ConfirmationModalProps {
 
 const CONFETTI_COLORS = ["#C9A961", "#B3CEE8", "#EFE4D2", "#FFFFFF", "#D5BD96"];
 
-const ConfirmationModal = ({ isOpen, onClose, confirmed, guestName }: ConfirmationModalProps) => (
+// Portal al <body> para quedar por encima de los pétalos y el botón de música
+const ConfirmationModal = ({ isOpen, onClose, confirmed, guestName }: ConfirmationModalProps) => createPortal(
   <AnimatePresence>
     {isOpen && (
       <motion.div
-        className="fixed inset-0 z-50 flex items-center justify-center bg-sand-700/40 p-4 backdrop-blur-sm"
+        className="fixed inset-0 z-[60] flex items-center justify-center bg-sand-700/40 p-4 backdrop-blur-sm"
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
         exit={{ opacity: 0 }}
@@ -39,7 +42,7 @@ const ConfirmationModal = ({ isOpen, onClose, confirmed, guestName }: Confirmati
         )}
 
         <motion.div
-          className="relative w-full max-w-md overflow-hidden rounded-[2rem] bg-ivory px-8 py-12 text-center shadow-2xl"
+          className="relative max-h-[90vh] w-full max-w-md overflow-y-auto overflow-x-hidden rounded-[2rem] bg-ivory px-8 py-12 text-center shadow-2xl"
           initial={{ scale: 0.9, y: 40, opacity: 0 }}
           animate={{ scale: 1, y: 0, opacity: 1 }}
           exit={{ scale: 0.9, y: 40, opacity: 0 }}
@@ -68,9 +71,15 @@ const ConfirmationModal = ({ isOpen, onClose, confirmed, guestName }: Confirmati
             <Divider />
 
             {confirmed ? (
-              <p className="font-elegant text-lg leading-relaxed text-sand-600">
-                Nos hace muy felices tu confirmación. Te esperamos para compartir juntos este momento tan especial.
-              </p>
+              <>
+                {WEDDING.thanks.map((paragraph, i) => (
+                  <p key={i} className="mb-4 font-elegant text-lg leading-relaxed text-sand-600">
+                    {paragraph}
+                  </p>
+                ))}
+                <p className="mt-6 font-elegant italic text-lg text-sand-500">Con cariño,</p>
+                <p className="font-script text-4xl text-gold-shimmer py-1">Los novios</p>
+              </>
             ) : (
               <p className="font-elegant text-lg leading-relaxed text-sand-600">
                 Nos hubiera encantado compartir contigo este día. Gracias por avisarnos; te llevamos en el corazón.
@@ -84,7 +93,8 @@ const ConfirmationModal = ({ isOpen, onClose, confirmed, guestName }: Confirmati
         </motion.div>
       </motion.div>
     )}
-  </AnimatePresence>
+  </AnimatePresence>,
+  document.body,
 );
 
 export default ConfirmationModal;

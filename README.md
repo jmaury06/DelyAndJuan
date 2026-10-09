@@ -62,7 +62,7 @@ Variables de entorno requeridas (ver `.env.example`):
 Supabase se usa **solo** para la tabla `invitados` (RSVP y panel `/admin`). Todas las imágenes viven en el repo:
 
 - `src/assets/portada.webp` — foto principal (portada en arco).
-- `src/assets/qr-regalo.svg` — QR del regalo (placeholder: reemplázalo por el QR real y actualiza el import en `WeddingGift.tsx`).
+- `src/assets/qr-regalo.png` — QR Bre-B del regalo (llave en `src/config/wedding.ts`).
 - Las flores animadas son SVG en código: `src/components/wedding/floral/`.
 
 ### Contenido

@@ -50,6 +50,15 @@ const PersonalizedWelcome = ({ guestData, onConfirmation }: PersonalizedWelcomeP
   return (
     <section className="relative py-14 md:py-20">
       <div className="mx-auto max-w-2xl px-6 text-center">
+        {/* Versículo */}
+        <Reveal className="mb-12">
+          <p className="font-elegant italic text-xl md:text-2xl leading-relaxed text-sand-600">
+            “{WEDDING.verse.text}”
+          </p>
+          <p className="mt-3 eyebrow">{WEDDING.verse.reference}</p>
+          <Divider className="mt-10" />
+        </Reveal>
+
         {/* Mensaje para el invitado */}
         <Reveal>
           {WEDDING.guestMessage.map((paragraph, i) => (

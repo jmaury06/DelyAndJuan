@@ -1,18 +1,28 @@
 import { AnimatePresence, motion } from "framer-motion";
-import { ChevronDown, Download, Mail, QrCode } from "lucide-react";
+import { Check, ChevronDown, Copy, Download, Mail, QrCode } from "lucide-react";
 import { useState } from "react";
-import qrRegalo from "@/assets/qr-regalo.svg";
+import qrRegalo from "@/assets/qr-regalo.png";
+import { WEDDING } from "@/config/wedding";
 import Reveal from "@/components/wedding/Reveal";
 import SectionTitle from "@/components/wedding/SectionTitle";
 
 /*
- * Regalo de boda: lluvia de sobres + QR.
- * El QR vive en local (src/assets). Reemplaza qr-regalo.svg por la imagen real
- * (p. ej. qr-regalo.png) y actualiza el import de arriba.
+ * Regalo de boda: lluvia de sobres + QR Bre-B (imagen local en src/assets).
  */
 
 const WeddingGift = () => {
   const [showQR, setShowQR] = useState(false);
+  const [copied, setCopied] = useState(false);
+
+  const copyKey = async () => {
+    try {
+      await navigator.clipboard.writeText(WEDDING.gift.key);
+      setCopied(true);
+      setTimeout(() => setCopied(false), 2000);
+    } catch (error) {
+      console.error("No se pudo copiar la llave:", error);
+    }
+  };
 
   return (
     <section className="relative py-14 md:py-20 px-6">
@@ -58,8 +68,13 @@ const WeddingGift = () => {
           >
             <div className="rounded-3xl border border-gold-200 bg-white p-6 shadow-[0_10px_40px_-20px_rgba(154,123,58,0.4)]">
               <img src={qrRegalo} alt="Código QR para el regalo de boda" className="w-full rounded-xl" />
+              <p className="mt-4 text-center eyebrow">{WEDDING.gift.bank}</p>
+              <button type="button" onClick={copyKey} className="btn-gold mt-3 w-full normal-case tracking-[0.1em]">
+                {copied ? <Check className="h-4 w-4" /> : <Copy className="h-4 w-4" />}
+                {copied ? "¡Llave copiada!" : `Copiar llave ${WEDDING.gift.key}`}
+              </button>
               <p className="mt-4 text-center font-script text-2xl text-sand-600">Gracias por tu detalle</p>
-              <a href={qrRegalo} download="qr-regalo-delia-juan" className="btn-outline-gold mt-4 w-full">
+              <a href={qrRegalo} download="qr-regalo-delia-juan.png" className="btn-outline-gold mt-4 w-full">
                 <Download className="h-4 w-4" />
                 Descargar QR
               </a>

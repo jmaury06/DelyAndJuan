@@ -28,6 +28,12 @@ export const WEDDING = {
     location: "Salón de eventos Dayder, Calle 76 # 44 - 45, Barranquilla, Atlántico, Colombia",
   },
 
+  // Reina-Valera 1960
+  verse: {
+    text: "Y si alguno prevaleciere contra uno, dos le resistirán; y cordón de tres dobleces no se rompe pronto.",
+    reference: "Eclesiastés 4:12",
+  },
+
   guestMessage: [
     "Hay personas que llegan a nuestra historia y, sin saberlo, se convierten en parte de ella.",
     "Hoy queremos compartir contigo uno de los capítulos más importantes de nuestras vidas: el día en que elegiremos caminar juntos para siempre.",
@@ -56,6 +62,14 @@ export const WEDDING = {
     ],
   },
 
+  closingPhrase: "Un amor que nos une, una fe que nos sostiene y un Dios que guía nuestro hogar.",
+
+  gift: {
+    bank: "Bancolombia · Bre-B",
+    key: "@delia495",
+  },
+
+  // Se muestran en el modal al confirmar asistencia
   thanks: [
     "Gracias por acompañarnos en este día tan importante, por celebrar nuestro amor y por ser parte de nuestra historia.",
     "Nos hace profundamente felices poder compartir contigo el comienzo de esta nueva etapa y guardar ese momento entre los recuerdos más bonitos de nuestra vida.",

@@ -100,12 +100,12 @@ export const useMusicPlayer = ({ autoplay = false }: { autoplay?: boolean } = {}
         playerRef.current = new (window as any).YT.Player('youtube-player', {
           height: '0',
           width: '0',
-          videoId: '_QWZQh0YYWA',
+          videoId: 'lLSie7e6d5E',
           playerVars: {
             autoplay: 0,
             controls: 0,
             loop: 1,
-            playlist: '_QWZQh0YYWA',
+            playlist: 'lLSie7e6d5E',
             enablejsapi: 1,
             playsinline: 1, // Crítico para iOS
             origin: window.location.origin // Requerido para algunos navegadores

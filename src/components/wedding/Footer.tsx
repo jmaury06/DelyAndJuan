@@ -19,22 +19,20 @@ const Footer = () => {
 
   return (
     <footer className="relative pt-14 pb-10 px-6 text-center">
-      <Reveal className="mx-auto max-w-xl">
-        <p className="eyebrow mb-3">Gracias</p>
-        {WEDDING.thanks.map((paragraph, i) => (
-          <p key={i} className="font-elegant text-lg md:text-xl leading-relaxed text-sand-600 mb-4">
-            {paragraph}
-          </p>
-        ))}
-        <p className="mt-6 font-elegant italic text-lg text-sand-500">Con cariño,</p>
-        <p className="font-script text-4xl text-gold-shimmer py-1">Los novios</p>
-      </Reveal>
-
-      <Reveal className="mt-10">
+      <Reveal>
         <button type="button" onClick={addToCalendar} className="btn-gold">
           <Calendar className="h-4 w-4" />
           Agregar al calendario
         </button>
+      </Reveal>
+
+      <Divider className="mt-14" />
+
+      {/* Frase final */}
+      <Reveal className="mx-auto max-w-lg">
+        <p className="font-script text-4xl md:text-5xl leading-snug text-gold-shimmer py-1">
+          {WEDDING.closingPhrase}
+        </p>
       </Reveal>
 
       {/* Monograma final dentro de la corona */}

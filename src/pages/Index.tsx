@@ -14,8 +14,10 @@ const Index = () => {
   };
 
   return (
-    <InvitationContent 
+    <InvitationContent
       guestData={demoGuest}
+      // Demo: simula una confirmación exitosa (no escribe en Supabase)
+      onConfirmation={async () => true}
     />
   );
 };
