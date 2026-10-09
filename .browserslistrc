@@ -1,0 +1,25 @@
+# Navegadores soportados para la aplicación de invitaciones de boda
+# Esto asegura compatibilidad con la mayoría de dispositivos móviles y navegadores
+
+# Navegadores modernos
+last 2 versions
+
+# Navegadores con más de 0.5% de uso global
+> 0.5%
+
+# Navegadores que aún reciben actualizaciones
+not dead
+
+# Soporte específico para móviles
+iOS >= 12
+Android >= 6
+
+# Navegadores específicos
+Chrome >= 80
+Firefox >= 75
+Safari >= 12
+Edge >= 85
+
+# Excluir navegadores obsoletos
+not IE 11
+not op_mini all

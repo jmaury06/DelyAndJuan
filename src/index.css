@@ -1,0 +1,275 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* Definition of the design system. All colors, gradients, fonts, etc should be defined here. 
+All colors MUST be HSL.
+*/
+
+@layer base {
+  :root {
+    /* Wedding Color Palette - Pink & Lilac */
+    --background: 0 0% 100%;
+    --foreground: 25 20% 15%;
+
+    /* Pink Palette */
+    --pink-50: 330 100% 97%;
+    --pink-100: 330 100% 95%;
+    --pink-200: 330 100% 90%;
+    --pink-300: 330 100% 85%;
+    --pink-400: 330 81% 70%;
+    --pink-500: 330 81% 60%;
+    --pink-600: 330 81% 50%;
+    
+    /* Lilac Palette */
+    --lilac-50: 270 50% 97%;
+    --lilac-100: 270 50% 95%;
+    --lilac-200: 270 50% 90%;
+    --lilac-300: 270 50% 85%;
+    --lilac-400: 270 50% 80%;
+    --lilac-500: 270 50% 75%;
+    
+    /* Warm Beige */
+    --beige-50: 36 44% 98%;
+    --beige-100: 35 26% 95%;
+    --beige-200: 32 15% 88%;
+    --beige-300: 28 10% 75%;
+
+    /* Design System Colors */
+    --primary: 277 22% 58%;
+    --primary-foreground: 0 0% 100%;
+    --primary-glow: 277 40% 85%;
+
+    --secondary: 270 50% 75%;
+    --secondary-foreground: 0 0% 100%;
+
+    --romantic: 277 22% 58%;
+    --romantic-foreground: 0 0% 100%;
+
+    --elegant: 28 10% 75%;
+    --elegant-foreground: 25 20% 15%;
+
+    --card: 0 0% 100%;
+    --card-foreground: 25 20% 15%;
+
+    --muted: 35 26% 95%;
+    --muted-foreground: 28 10% 75%;
+
+    --accent: 48 96% 89%;
+    --accent-foreground: 25 20% 15%;
+
+    --border: 32 15% 88%;
+    --input: 32 15% 88%;
+    --ring: 277 22% 58%;
+
+    --radius: 0.5rem;
+
+    --sidebar-background: 0 0% 98%;
+
+    --sidebar-foreground: 240 5.3% 26.1%;
+
+    --sidebar-primary: 240 5.9% 10%;
+
+    --sidebar-primary-foreground: 0 0% 98%;
+
+    --sidebar-accent: 240 4.8% 95.9%;
+
+    --sidebar-accent-foreground: 240 5.9% 10%;
+
+    --sidebar-border: 220 13% 91%;
+
+    --sidebar-ring: 217.2 91.2% 59.8%;
+  }
+
+  .dark {
+    --background: 222.2 84% 4.9%;
+    --foreground: 210 40% 98%;
+
+    --card: 222.2 84% 4.9%;
+    --card-foreground: 210 40% 98%;
+
+    --popover: 222.2 84% 4.9%;
+    --popover-foreground: 210 40% 98%;
+
+    --primary: 210 40% 98%;
+    --primary-foreground: 222.2 47.4% 11.2%;
+
+    --secondary: 217.2 32.6% 17.5%;
+    --secondary-foreground: 210 40% 98%;
+
+    --muted: 217.2 32.6% 17.5%;
+    --muted-foreground: 215 20.2% 65.1%;
+
+    --accent: 217.2 32.6% 17.5%;
+    --accent-foreground: 210 40% 98%;
+
+    --destructive: 0 62.8% 30.6%;
+    --destructive-foreground: 210 40% 98%;
+
+    --border: 217.2 32.6% 17.5%;
+    --input: 217.2 32.6% 17.5%;
+    --ring: 212.7 26.8% 83.9%;
+    --sidebar-background: 240 5.9% 10%;
+    --sidebar-foreground: 240 4.8% 95.9%;
+    --sidebar-primary: 224.3 76.3% 48%;
+    --sidebar-primary-foreground: 0 0% 100%;
+    --sidebar-accent: 240 3.7% 15.9%;
+    --sidebar-accent-foreground: 240 4.8% 95.9%;
+    --sidebar-border: 240 3.7% 15.9%;
+    --sidebar-ring: 217.2 91.2% 59.8%;
+  }
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+
+  body {
+    @apply bg-background text-foreground;
+  }
+
+  /* Wedding Typography */
+  .font-elegant {
+    font-family: 'Playfair Display', serif;
+  }
+
+  .font-script {
+    font-family: 'Dancing Script', cursive;
+  }
+}
+
+/* Custom Wedding Animations */
+@layer utilities {
+  /* Spring Gradients */
+  .gradient-romantic {
+    background: linear-gradient(135deg, 
+      rgba(134, 239, 172, 0.3),  /* green-300 */
+      rgba(253, 224, 71, 0.3),   /* yellow-300 */
+      rgba(252, 165, 165, 0.3),  /* red-300 */
+      rgba(196, 181, 253, 0.3)   /* purple-300 */
+    );
+  }
+  
+  .gradient-pink {
+    background: linear-gradient(135deg, hsl(var(--pink-300)), hsl(var(--pink-400)));
+  }
+
+  .gradient-elegant {
+    background: linear-gradient(180deg, hsl(var(--lilac-100)), hsl(var(--pink-100)));
+  }
+
+  /* Wedding Animations */
+  .animate-float {
+    animation: float 6s ease-in-out infinite;
+  }
+
+  .animate-sparkle {
+    animation: sparkle 2s linear infinite;
+  }
+
+  .animate-fade-in-up {
+    animation: fadeInUp 1s ease-out;
+  }
+
+  /* Heart Beat Animation */
+  .animate-heartbeat {
+    animation: heartbeat 1.5s ease-in-out infinite;
+  }
+}
+
+@keyframes float {
+  0%, 100% { transform: translateY(0px); }
+  50% { transform: translateY(-20px); }
+}
+
+@keyframes sparkle {
+  0%, 100% { opacity: 1; transform: scale(1); }
+  50% { opacity: 0.7; transform: scale(1.1); }
+}
+
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes heartbeat {
+  0%, 100% { transform: scale(1); }
+  50% { transform: scale(1.05); }
+}
+
+/* Mejoras de compatibilidad móvil */
+@layer base {
+  /* Prevenir zoom en inputs en iOS */
+  input, select, textarea {
+    font-size: 16px !important;
+  }
+  
+  /* Mejorar rendimiento de animaciones en móviles */
+  * {
+    -webkit-tap-highlight-color: transparent;
+    -webkit-touch-callout: none;
+  }
+  
+  /* Suavizar scroll en móviles */
+  html {
+    -webkit-overflow-scrolling: touch;
+    scroll-behavior: smooth;
+  }
+  
+  /* Optimizar fuentes para móviles */
+  body {
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    text-rendering: optimizeLegibility;
+  }
+  
+  /* Prevenir selección accidental en móviles */
+  .no-select {
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+  }
+  
+  /* Mejorar rendimiento de transformaciones */
+  .gpu-accelerated {
+    transform: translateZ(0);
+    -webkit-transform: translateZ(0);
+    will-change: transform;
+  }
+}
+
+/* Media queries para dispositivos móviles */
+@media (max-width: 640px) {
+  /* Reducir animaciones en móviles para mejor performance */
+  .animate-float,
+  .animate-sparkle {
+    animation-duration: 8s;
+  }
+}
+
+/* Soporte para modo oscuro del sistema */
+@media (prefers-color-scheme: dark) {
+  /* Mantener tema claro para invitaciones */
+  :root {
+    color-scheme: light;
+  }
+}
+
+/* Soporte para reducción de movimiento */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
