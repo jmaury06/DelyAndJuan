@@ -6,7 +6,6 @@ import ProtectedRoute from "@/components/ProtectedRoute";
 import ErrorBoundary from "@/components/ErrorBoundary";
 import Index from "./pages/Index";
 import InvitationPage from "./pages/invitacion/[token]";
-import PhotoGallery from "./pages/PhotoGallery";
 import Admin from "./pages/Admin";
 
 import ItineraryPage from "./pages/itinerario";
@@ -30,7 +29,6 @@ function App() {
               
               {/* Rutas públicas - Invitaciones */}
               <Route path="/invitacion/:token" element={<InvitationPage />} />
-              <Route path="/photo_collage" element={<PhotoGallery />} />
               <Route path="/itinerario" element={<ItineraryPage />} />
             </Routes>
             <Toaster />

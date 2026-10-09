@@ -97,45 +97,11 @@ create policy "invitados_delete_public"
   to anon, authenticated
   using (true);
 
--- ----------------------------------------------------------------------------
--- 3. STORAGE — Buckets
--- ----------------------------------------------------------------------------
--- wedding-photos: fotos de la galería (pre-boda + collage) y subidas futuras
--- icons:          iconos SVG/PNG usados en el itinerario y la invitación
-insert into storage.buckets (id, name, public)
-values ('wedding-photos', 'wedding-photos', true)
-on conflict (id) do nothing;
-
-insert into storage.buckets (id, name, public)
-values ('icons', 'icons', true)
-on conflict (id) do nothing;
+-- Nota: la invitación ya no usa Supabase Storage; todas las imágenes viven en
+-- src/assets. Si ya creaste los buckets 'wedding-photos' e 'icons', puedes borrarlos.
 
 -- ----------------------------------------------------------------------------
--- 4. STORAGE — Políticas (storage.objects)
--- ----------------------------------------------------------------------------
-drop policy if exists "wedding_photos_read" on storage.objects;
-create policy "wedding_photos_read"
-  on storage.objects
-  for select
-  to anon, authenticated
-  using (bucket_id = 'wedding-photos');
-
-drop policy if exists "wedding_photos_insert" on storage.objects;
-create policy "wedding_photos_insert"
-  on storage.objects
-  for insert
-  to anon, authenticated
-  with check (bucket_id = 'wedding-photos');
-
-drop policy if exists "icons_read" on storage.objects;
-create policy "icons_read"
-  on storage.objects
-  for select
-  to anon, authenticated
-  using (bucket_id = 'icons');
-
--- ----------------------------------------------------------------------------
--- 5. SEED — Invitado de prueba (opcional, bórralo cuando ya no lo necesites)
+-- 3. SEED — Invitado de prueba (opcional, bórralo cuando ya no lo necesites)
 -- ----------------------------------------------------------------------------
 insert into public.invitados (token, nombre, apellido, cupos, mesa, confirma)
 values ('00000000-0000-4000-8000-000000000001', 'Invitado', 'Demo', 2, 1, null)

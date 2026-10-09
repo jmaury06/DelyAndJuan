@@ -9,6 +9,5 @@ export const supabase = supabaseUrl && supabaseAnonKey
   ? createClient(supabaseUrl, supabaseAnonKey)
   : createClient('https://placeholder.supabase.co', 'placeholder-key')
 
-// Storage bucket name
-export const WEDDING_PHOTOS_BUCKET = 'wedding-photos'
-export const ICONS_BUCKET = 'icons'
+// Supabase solo se usa para invitados (RSVP y panel /admin).
+// Todas las imágenes de la invitación viven en local (src/assets).

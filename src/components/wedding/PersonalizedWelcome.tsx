@@ -1,10 +1,9 @@
-import Divider from "@/components/wedding/Divider";
-import { Button } from "@/components/ui/button";
 import ConfirmationModal from "@/components/ui/ConfirmationModal";
+import Divider from "@/components/wedding/Divider";
+import Reveal from "@/components/wedding/Reveal";
+import { WEDDING } from "@/config/wedding";
 import { useToast } from "@/hooks/use-toast";
 import { GuestData } from "@/hooks/useGuest";
-import { useThemeStore } from "@/stores/themeStore";
-import { motion } from "framer-motion";
 import { Check, X } from "lucide-react";
 import { useState } from "react";
 
@@ -14,187 +13,112 @@ interface PersonalizedWelcomeProps {
 }
 
 const PersonalizedWelcome = ({ guestData, onConfirmation }: PersonalizedWelcomeProps) => {
-  const { isDarkMode } = useThemeStore();
   const { toast } = useToast();
   const [isProcessing, setIsProcessing] = useState(false);
   const [showModal, setShowModal] = useState(false);
   const [lastConfirmation, setLastConfirmation] = useState<boolean | null>(null);
 
   const handleConfirmation = async (confirma: boolean) => {
-    if (isProcessing || showModal) return;
+    if (isProcessing || showModal || !onConfirmation) return;
 
     setIsProcessing(true);
-
     try {
-      if (onConfirmation) {
-        const success = await onConfirmation(confirma);
-
-        if (success) {
-          // Mostrar modal después de la confirmación exitosa
-          setLastConfirmation(confirma);
-          setShowModal(true);
-        } else {
-          toast({
-            title: "Error",
-            description: "No se pudo procesar tu confirmación. Intenta nuevamente.",
-            variant: "destructive"
-          });
-        }
+      const success = await onConfirmation(confirma);
+      if (success) {
+        setLastConfirmation(confirma);
+        setShowModal(true);
+      } else {
+        toast({
+          title: "Error",
+          description: "No se pudo procesar tu confirmación. Intenta nuevamente.",
+          variant: "destructive",
+        });
       }
     } catch (error) {
       toast({
         title: "Error",
         description: "Ocurrió un error inesperado. Intenta nuevamente.",
-        variant: "destructive"
+        variant: "destructive",
       });
     } finally {
       setIsProcessing(false);
     }
   };
 
-  const handleCloseModal = () => {
-    setShowModal(false);
-    setIsProcessing(false);
-  };
-
-  const getConfirmationStatus = () => {
-    if (guestData.confirma === null) {
-      return { text: 'Pendiente de confirmación', color: 'text-yellow-600', bg: 'bg-yellow-100' };
-    } else if (guestData.confirma) {
-      return { text: '¡Confirmado! Nos vemos en la boda', color: 'text-green-600', bg: 'bg-green-100' };
-    } else {
-      return { text: 'No podrá asistir', color: 'text-red-600', bg: 'bg-red-100' };
-    }
-  };
-
-  const status = getConfirmationStatus();
-
-  // Detectar si el nombre termina con "y " (con espacio) para usar plural
-  const isPlural = guestData.nombre.toLowerCase().endsWith('y');
+  const guestName = `${guestData.nombre} ${guestData.apellido}`.trim();
 
   return (
-    <section className="relative py-16 md:py-20 overflow-hidden bg-transparent">
-      <div className="container mx-auto px-6 md:px-8 relative z-10 max-w-3xl">
-        {/* Saludo personalizado con efecto de scroll */}
-        <motion.div
-          className="text-center mb-12"
-          initial={{ opacity: 0, y: 30 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.8 }}
-        >
-          <h2 className={`font-script text-4xl md:text-5xl text-mauve-400 mb-6`}>
-            {guestData.nombre} {guestData.apellido}
-          </h2>
-
-          <Divider />
-        </motion.div>
-
-        {/* Mensaje principal con efecto de scroll */}
-        <motion.div
-          className="text-center mb-12"
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.8, delay: 0.3 }}
-        >
-          <p className={`font-script text-xl font-semibold text-slate-600 mb-8`}>
-            {isPlural
-              ? 'Son personas muy importantes en nuestra relación y por eso tenemos el gusto de invitarlos a nuestro matrimonio.'
-              : 'Eres una persona muy importante en nuestra relación y por eso tenemos el gusto de invitarte a nuestro matrimonio.'
-            }
-          </p>
-
-          {/* Información compacta - Diseño mejorado */}
-          <div className="flex items-center justify-center gap-8 mb-8">
-            {/* Cupos */}
-            <div className="text-center">
-              <p className={`text-xs text-slate-600 uppercase tracking-wider mb-2`}>
-                {guestData.cupos === 1 ? 'Cupo' : 'Cupos'}
-              </p>
-              <p className={`text-4xl md:text-5xl font-bold text-slate-600`}>
-                {guestData.cupos}
-              </p>
-            </div>
-
-            {/* Mesa (solo si existe y confirmó que SÍ asistirá) */}
-            {guestData.mesa && guestData.confirma === true && (
-              <div className="text-center">
-                <p className={`text-xs text-slate-600 uppercase tracking-wider mb-2`}>
-                  Mesa
-                </p>
-                <p className={`text-4xl md:text-5xl font-bold text-slate-600`}>
-                  {guestData.mesa}
-                </p>
-              </div>
-            )}
-          </div>
-        </motion.div>
-
-        {/* Confirmación minimalista */}
-        <motion.div
-          className="text-center"
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.8, delay: 0.6 }}
-        >
-          {guestData.confirma === null && ''}
-
-          {/* Estado actual */}
-          {typeof status.text === 'boolean' && (
-            <div className="mb-6">
-              <span className={`inline-block text-slate-600 px-4 py-2 rounded-full text-sm font-medium ${status.bg} ${status.color}`}>
-                {status.text}
-              </span>
-            </div>
-          )}
-
-          {/* Botones de confirmación */}
-          {guestData.confirma === null && (
-            <motion.div
-              className="flex flex-col sm:flex-row gap-4 justify-center"
-              initial={{ opacity: 0, scale: 0.9 }}
-              animate={{ opacity: 1, scale: 1 }}
-              transition={{ duration: 0.6, delay: 0.8 }}
+    <section className="relative py-14 md:py-20">
+      <div className="mx-auto max-w-2xl px-6 text-center">
+        {/* Mensaje para el invitado */}
+        <Reveal>
+          {WEDDING.guestMessage.map((paragraph, i) => (
+            <p
+              key={i}
+              className={
+                i === 0
+                  ? "font-elegant italic text-2xl md:text-3xl leading-snug text-sand-700 mb-6"
+                  : "font-elegant text-lg md:text-xl leading-relaxed text-sand-600 mb-4"
+              }
             >
-              <Button
-                onClick={() => handleConfirmation(true)}
-                disabled={isProcessing}
-                className="bg-sage-400 hover:bg-sage-500 text-white font-semibold px-8 py-3 rounded-full shadow-lg hover:shadow-xl transition-all duration-300 transform hover:scale-105 disabled:opacity-50"
-              >
-                {isProcessing ? (
-                  <motion.div
-                    className="flex items-center gap-2"
-                    animate={{ opacity: [1, 0.5, 1] }}
-                    transition={{ duration: 1, repeat: Infinity }}
-                  >
-                    <Check className="w-5 h-5" />
-                    Confirmando...
-                  </motion.div>
-                ) : (
-                  <>
-                    <Check className="w-5 h-5 mr-2" />
-                    Sí, Asistiré
-                  </>
-                )}
-              </Button>
-              <Button
-                onClick={() => handleConfirmation(false)}
-                disabled={isProcessing}
-                className="bg-mauve-300 hover:bg-mauve-400 text-white font-semibold px-8 py-3 rounded-full shadow-lg hover:shadow-xl transition-all duration-300 transform hover:scale-105 disabled:opacity-50"
-              >
-                <X className="w-5 h-5 mr-2" />
-                No Podré Asistir
-              </Button>
-            </motion.div>
-          )}
-        </motion.div>
+              {paragraph}
+            </p>
+          ))}
+        </Reveal>
+
+        <Divider className="my-10" />
+
+        {/* Tarjeta personalizada */}
+        <Reveal delay={0.1}>
+          <div className="relative mx-auto max-w-md rounded-[2rem] border border-gold-200 bg-white/70 px-6 py-10 shadow-[0_10px_40px_-20px_rgba(154,123,58,0.35)] backdrop-blur-sm">
+            <div className="pointer-events-none absolute inset-2 rounded-[1.6rem] border border-gold-100" aria-hidden="true" />
+
+            <p className="eyebrow">Invitación especial para</p>
+            <h2 className="mt-3 font-script text-5xl text-gold-shimmer leading-tight py-1">{guestName}</h2>
+
+            <div className="mt-6 flex items-center justify-center gap-10">
+              <div>
+                <p className="font-elegant text-5xl font-light text-sand-700">{guestData.cupos}</p>
+                <p className="mt-1 eyebrow text-[0.6rem]">{guestData.cupos === 1 ? "Cupo" : "Cupos"}</p>
+              </div>
+              {guestData.mesa && guestData.confirma === true && (
+                <div className="border-l border-gold-200 pl-10">
+                  <p className="font-elegant text-5xl font-light text-sand-700">{guestData.mesa}</p>
+                  <p className="mt-1 eyebrow text-[0.6rem]">Mesa</p>
+                </div>
+              )}
+            </div>
+
+            <div className="mt-8">
+              {guestData.confirma === null ? (
+                <>
+                  <p className="mb-5 font-elegant text-lg text-sand-600">¿Nos acompañas?</p>
+                  <div className="mx-auto flex max-w-xs flex-col gap-3">
+                    <button type="button" onClick={() => handleConfirmation(true)} disabled={isProcessing} className="btn-gold">
+                      <Check className="h-4 w-4" />
+                      {isProcessing ? "Confirmando..." : "Sí, asistiré"}
+                    </button>
+                    <button type="button" onClick={() => handleConfirmation(false)} disabled={isProcessing} className="btn-outline-gold">
+                      <X className="h-4 w-4" />
+                      No podré asistir
+                    </button>
+                  </div>
+                </>
+              ) : (
+                <p className="inline-block rounded-full bg-celeste-50 border border-celeste-200 px-5 py-2 font-elegant text-lg text-sand-700">
+                  {guestData.confirma ? "¡Asistencia confirmada! Te esperamos" : "Gracias por avisarnos, te extrañaremos"}
+                </p>
+              )}
+            </div>
+          </div>
+        </Reveal>
       </div>
 
-      {/* Modal de confirmación */}
       <ConfirmationModal
         isOpen={showModal}
-        onClose={handleCloseModal}
+        onClose={() => setShowModal(false)}
         confirmed={lastConfirmation === true}
-        guestName={`${guestData.nombre} ${guestData.apellido}`}
+        guestName={guestName}
       />
     </section>
   );

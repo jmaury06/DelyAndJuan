@@ -131,11 +131,11 @@ All colors MUST be HSL.
 
   /* Wedding Typography */
   .font-elegant {
-    font-family: 'Playfair Display', serif;
+    font-family: 'Cormorant Garamond', 'Playfair Display', serif;
   }
 
   .font-script {
-    font-family: 'Dancing Script', cursive;
+    font-family: 'Great Vibes', cursive;
   }
 }
 
@@ -202,6 +202,113 @@ All colors MUST be HSL.
 @keyframes heartbeat {
   0%, 100% { transform: scale(1); }
   50% { transform: scale(1.05); }
+}
+
+/* ---------- Invitación Delia & Juan ---------- */
+@layer components {
+  .invitation-bg {
+    background-color: #FDFBF7;
+    background-image:
+      radial-gradient(ellipse 80% 50% at 0% 0%, rgba(207, 225, 241, 0.45), transparent 60%),
+      radial-gradient(ellipse 70% 45% at 100% 35%, rgba(239, 228, 210, 0.55), transparent 60%),
+      radial-gradient(ellipse 80% 50% at 0% 70%, rgba(228, 211, 182, 0.35), transparent 60%),
+      radial-gradient(ellipse 70% 40% at 100% 100%, rgba(207, 225, 241, 0.4), transparent 60%);
+  }
+
+  /* Texto dorado con brillo que recorre las letras */
+  .text-gold-shimmer {
+    background: linear-gradient(110deg, #8A6D32 0%, #B8954A 30%, #DCC58A 45%, #B8954A 60%, #8A6D32 100%);
+    background-size: 250% 100%;
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+    animation: shimmer 7s ease-in-out infinite;
+  }
+
+  .eyebrow {
+    @apply font-sans text-[0.7rem] md:text-xs uppercase tracking-[0.3em] text-sand-500;
+    text-wrap: balance;
+  }
+
+  .btn-gold {
+    @apply inline-flex items-center justify-center gap-2 rounded-full px-7 py-3 font-sans text-xs uppercase tracking-[0.25em] text-white shadow-md transition-all duration-300 hover:shadow-lg hover:-translate-y-0.5 disabled:opacity-50 disabled:pointer-events-none;
+    background: linear-gradient(135deg, #C9A961, #B8954A 55%, #9A7B3A);
+  }
+
+  .btn-outline-gold {
+    @apply inline-flex items-center justify-center gap-2 rounded-full border border-gold-400 bg-white/60 px-7 py-3 font-sans text-xs uppercase tracking-[0.25em] text-gold-600 transition-all duration-300 hover:bg-gold-50 hover:-translate-y-0.5 disabled:opacity-50 disabled:pointer-events-none;
+  }
+}
+
+/* Pétalos que caen por la pantalla */
+.petal {
+  position: absolute;
+  top: -8vh;
+  animation-name: petal-fall;
+  animation-timing-function: linear;
+  animation-iteration-count: infinite;
+  will-change: transform;
+}
+
+.petal > * {
+  animation: petal-sway 4s ease-in-out infinite alternate;
+}
+
+@keyframes petal-fall {
+  0% { transform: translate3d(0, -10vh, 0) rotate(0deg); opacity: 0; }
+  8% { opacity: 0.9; }
+  90% { opacity: 0.85; }
+  100% { transform: translate3d(var(--drift, 60px), 115vh, 0) rotate(var(--spin, 540deg)); opacity: 0; }
+}
+
+@keyframes petal-sway {
+  from { transform: translateX(-18px) rotate(-15deg); }
+  to { transform: translateX(18px) rotate(20deg); }
+}
+
+/* Animaciones de las flores SVG */
+.flower-breathe,
+.flower-sway,
+.flower-sway-wide,
+.flower-spin,
+.twinkle {
+  transform-box: fill-box;
+  transform-origin: center;
+}
+
+.flower-breathe { animation: flower-breathe 5s ease-in-out infinite; }
+.flower-sway { animation: flower-sway 6s ease-in-out infinite; transform-origin: bottom center; }
+.flower-sway-wide { animation: flower-sway-wide 9s ease-in-out infinite; }
+.flower-spin { animation: flower-spin 60s linear infinite; }
+.twinkle { animation: twinkle 3s ease-in-out infinite; }
+
+@keyframes flower-breathe {
+  0%, 100% { transform: scale(1) rotate(0deg); }
+  50% { transform: scale(1.07) rotate(6deg); }
+}
+
+@keyframes flower-sway {
+  0%, 100% { transform: rotate(-7deg); }
+  50% { transform: rotate(7deg); }
+}
+
+@keyframes flower-sway-wide {
+  0%, 100% { transform: rotate(-3deg) scale(1); }
+  50% { transform: rotate(3deg) scale(1.02); }
+}
+
+@keyframes flower-spin {
+  to { transform: rotate(360deg); }
+}
+
+@keyframes twinkle {
+  0%, 100% { opacity: 0.15; transform: scale(0.6); }
+  50% { opacity: 1; transform: scale(1.2); }
+}
+
+@keyframes shimmer {
+  0%, 100% { background-position: 100% 0; }
+  50% { background-position: 0% 0; }
 }
 
 /* Mejoras de compatibilidad móvil */

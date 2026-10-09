@@ -1,139 +1,70 @@
-import { useThemeStore } from "@/stores/themeStore";
 import { motion } from "framer-motion";
-import { Heart } from "lucide-react";
 import { useEffect, useState } from "react";
+import { WEDDING } from "@/config/wedding";
+import FloralWreath from "@/components/wedding/floral/FloralWreath";
+import Reveal from "@/components/wedding/Reveal";
+
+const WEDDING_TIME = new Date(WEDDING.dateISO).getTime();
+
+const getTimeLeft = () => {
+  const difference = Math.max(0, WEDDING_TIME - Date.now());
+  return {
+    days: Math.floor(difference / (1000 * 60 * 60 * 24)),
+    hours: Math.floor((difference % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60)),
+    minutes: Math.floor((difference % (1000 * 60 * 60)) / (1000 * 60)),
+    seconds: Math.floor((difference % (1000 * 60)) / 1000),
+  };
+};
 
 const CountdownTimer = () => {
-  const { isDarkMode } = useThemeStore();
-  const [timeLeft, setTimeLeft] = useState({
-    days: 0,
-    hours: 0,
-    minutes: 0,
-    seconds: 0
-  });
+  const [timeLeft, setTimeLeft] = useState(getTimeLeft);
 
   useEffect(() => {
-    const weddingDate = new Date('2026-11-21T17:00:00').getTime();
-
-    const timer = setInterval(() => {
-      const now = new Date().getTime();
-      const difference = weddingDate - now;
-
-      if (difference > 0) {
-        setTimeLeft({
-          days: Math.floor(difference / (1000 * 60 * 60 * 24)),
-          hours: Math.floor((difference % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60)),
-          minutes: Math.floor((difference % (1000 * 60 * 60)) / (1000 * 60)),
-          seconds: Math.floor((difference % (1000 * 60)) / 1000)
-        });
-      }
-    }, 1000);
-
+    const timer = setInterval(() => setTimeLeft(getTimeLeft()), 1000);
     return () => clearInterval(timer);
   }, []);
 
+  const units = [
+    { label: "Días", value: timeLeft.days },
+    { label: "Horas", value: timeLeft.hours },
+    { label: "Min", value: timeLeft.minutes },
+    { label: "Seg", value: timeLeft.seconds },
+  ];
+  const isToday = WEDDING_TIME - Date.now() <= 0;
+
   return (
-    <section className={`relative mt-[-70px] md:py-20 overflow-hidden bg-transparent`}>
-      <div className="container mx-auto px-4 relative z-10">
-        {/* Contenedor principal con el SVG de fondo */}
-        <div className="flex items-center justify-center">
-          <motion.div 
-            className="relative w-full max-w-md md:max-w-lg"
-            initial={{ opacity: 0, scale: 0.8 }}
-            animate={{ opacity: 1, scale: 1 }}
-            transition={{ duration: 1, ease: "easeOut" }}
-          >
-            <div className="w-full aspect-square rounded-full border border-mauve-200 bg-mauve-50/60" />
+    <section className="relative py-12 md:py-16 overflow-hidden">
+      <Reveal className="relative mx-auto w-[min(94vw,480px)] aspect-square">
+        <FloralWreath className="absolute inset-0 h-full w-full" />
 
-            {/* Contenido del contador centrado sobre el SVG */}
-            <motion.div
-              className="absolute inset-0 flex flex-col items-center justify-center"
-            >
-              {/* Título */}
-              <motion.h2
-                className={`font-script text-3xl md:text-4xl mb-6 text-mauve-400`}
-                initial={{ opacity: 0, y: -20 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.8, delay: 0.3 }}
-              >
-                Faltan
-              </motion.h2>
+        <div className="absolute inset-0 flex flex-col items-center justify-center text-center">
+          <p className="eyebrow">{isToday ? "Llegó el día" : "Faltan"}</p>
 
-              {/* Grid del contador */}
-              <div className="grid grid-cols-4 gap-3 md:gap-6 mb-4">
-                {/* Días */}
-                <motion.div 
-                  className="text-center"
-                  initial={{ opacity: 0, y: 20 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  transition={{ duration: 0.6, delay: 0.4 }}
-                >
-                  <div className={`text-4xl md:text-5xl font-bold text-mauve-400`}>
-                    {timeLeft.days}
+          <div className="mt-3 flex items-start justify-center gap-2.5 sm:gap-4">
+            {units.map((unit, i) => (
+              <div key={unit.label} className="flex items-start">
+                {i > 0 && <span className="mr-2.5 sm:mr-4 font-elegant text-2xl sm:text-3xl text-gold-300 leading-[1.1]">·</span>}
+                <div className="w-11 sm:w-14">
+                  <motion.div
+                    key={unit.value}
+                    className="font-elegant text-3xl sm:text-5xl font-light text-sand-700 tabular-nums leading-none"
+                    initial={{ opacity: 0.2, y: -6 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ duration: 0.45 }}
+                  >
+                    {String(unit.value).padStart(2, "0")}
+                  </motion.div>
+                  <div className="mt-1.5 font-sans text-[0.55rem] sm:text-[0.65rem] uppercase tracking-[0.2em] text-gold-500">
+                    {unit.label}
                   </div>
-                  <div className={`text-xs md:text-sm uppercase tracking-wide ${isDarkMode ? 'text-mauve-200' : 'text-mauve-500'}`}>
-                    días
-                  </div>
-                </motion.div>
-
-                {/* Horas */}
-                <motion.div 
-                  className="text-center"
-                  initial={{ opacity: 0, y: 20 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  transition={{ duration: 0.6, delay: 0.5 }}
-                >
-                  <div className={`text-4xl md:text-5xl font-bold text-mauve-400`}>
-                    {timeLeft.hours}
-                  </div>
-                  <div className={`text-xs md:text-sm uppercase tracking-wide ${isDarkMode ? 'text-mauve-200' : 'text-mauve-500'}`}>
-                    hs
-                  </div>
-                </motion.div>
-
-                {/* Minutos */}
-                <motion.div 
-                  className="text-center"
-                  initial={{ opacity: 0, y: 20 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  transition={{ duration: 0.6, delay: 0.6 }}
-                >
-                  <div className={`text-4xl md:text-5xl font-bold text-mauve-400`}>
-                    {timeLeft.minutes}
-                  </div>
-                  <div className={`text-xs md:text-sm uppercase tracking-wide ${isDarkMode ? 'text-mauve-200' : 'text-mauve-500'}`}>
-                    min
-                  </div>
-                </motion.div>
-
-                {/* Segundos */}
-                <motion.div 
-                  className="text-center"
-                  initial={{ opacity: 0, y: 20 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  transition={{ duration: 0.6, delay: 0.7 }}
-                >
-                  <div className={`text-4xl md:text-5xl font-bold text-mauve-400`}>
-                    {timeLeft.seconds}
-                  </div>
-                  <div className={`text-xs md:text-sm uppercase tracking-wide ${isDarkMode ? 'text-mauve-200' : 'text-mauve-500'}`}>
-                    seg
-                  </div>
-                </motion.div>
+                </div>
               </div>
+            ))}
+          </div>
 
-              {/* Corazón decorativo */}
-              <motion.div
-                initial={{ opacity: 0, scale: 0 }}
-                animate={{ opacity: 1, scale: 1 }}
-                transition={{ duration: 0.6, delay: 0.8 }}
-              >
-                <Heart className={`w-8 h-8 text-mauve-400 animate-heartbeat`} fill="currentColor" />
-              </motion.div>
-            </motion.div>
-          </motion.div>
+          <p className="mt-4 font-script text-2xl sm:text-3xl text-sand-500">para el gran día</p>
         </div>
-      </div>
+      </Reveal>
     </section>
   );
 };

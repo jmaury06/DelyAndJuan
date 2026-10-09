@@ -1,170 +1,85 @@
 import { motion } from "framer-motion";
 import { useNavigate } from "react-router-dom";
-import { ArrowLeft } from "lucide-react";
-import { Button } from "@/components/ui/button";
+import { ArrowLeft, Camera, Flower2, GlassWater, Heart, Music, PartyPopper, Users, UtensilsCrossed, type LucideIcon } from "lucide-react";
+import { WEDDING } from "@/config/wedding";
+import Divider from "@/components/wedding/Divider";
+import FallingPetals from "@/components/wedding/floral/FallingPetals";
+import FloralCluster from "@/components/wedding/floral/FloralCluster";
 
-import { supabase, ICONS_BUCKET } from "@/lib/supabase";
-
-const getIconUrl = (filename: string) => {
-  const { data } = supabase.storage
-    .from(ICONS_BUCKET)
-    .getPublicUrl(filename);
-  return data.publicUrl;
-};
-
-const timelineEvents = [
-  {
-    time: "05:00 PM",
-    title: "RECEPCIÓN DE INVITADOS",
-    icon: getIconUrl("1-inicio.svg"),
-    align: "right"
-  },
-  {
-    time: "05:30 PM",
-    title: "CEREMONIA",
-    icon: getIconUrl("2-telon.svg"),
-    align: "left"
-  },
-  {
-    time: "06:30 PM",
-    title: "FOTOS DE LOS NOVIOS",
-    icon: getIconUrl("8-fotos.svg"),
-    align: "right"
-  },
-  {
-    time: "07:30 PM",
-    title: "ENTRADA Y BAILE DE LOS NOVIOS",
-    icon: getIconUrl("4-baile.svg"),
-    align: "left"
-  },
-  {
-    time: "08:00 PM",
-    title: "BRINDIS",
-    icon: getIconUrl("3-copas.svg"),
-    align: "right"
-  },
-  {
-    time: "08:30 PM",
-    title: "CENA",
-    icon: getIconUrl("5-cena.svg"),
-    align: "left"
-  },
-  {
-    time: "09:30 PM",
-    title: "LANZAMIENTO DE RAMO Y LIGA",
-    icon: null,
-    align: "right"
-  },
-  {
-    time: "10:00 PM",
-    title: "¡QUE COMIENCE LA FIESTA!",
-    icon: getIconUrl("7-dj.svg"),
-    align: "left"
-  }
+// Horarios estimados a partir de la ceremonia de las 6:30 PM (pendiente de confirmar con los novios)
+const timelineEvents: { time: string; title: string; icon: LucideIcon }[] = [
+  { time: "6:00 PM", title: "Recepción de invitados", icon: Users },
+  { time: "6:30 PM", title: "Ceremonia", icon: Heart },
+  { time: "7:15 PM", title: "Fotos de los novios", icon: Camera },
+  { time: "8:00 PM", title: "Entrada y baile de los novios", icon: Music },
+  { time: "8:30 PM", title: "Brindis", icon: GlassWater },
+  { time: "9:00 PM", title: "Cena", icon: UtensilsCrossed },
+  { time: "10:00 PM", title: "Lanzamiento de ramo y liga", icon: Flower2 },
+  { time: "10:30 PM", title: "¡Que comience la fiesta!", icon: PartyPopper },
 ];
 
 const ItineraryPage = () => {
   const navigate = useNavigate();
 
   return (
-    <div className="min-h-screen bg-cream relative overflow-hidden font-serif">
-      <div className="fixed top-6 left-6 z-50">
-        <Button 
-          onClick={() => navigate(-1)}
-          variant="ghost" 
-          className="bg-white/50 hover:bg-white/80 backdrop-blur-sm rounded-full p-2 h-auto text-[#8B7355] border border-[#D4C5B0]"
-        >
-          <ArrowLeft className="w-6 h-6" />
-        </Button>
-      </div>
+    <div className="invitation-bg min-h-screen relative overflow-hidden">
+      <FallingPetals count={10} />
 
-      <div className="container mx-auto px-4 py-24 relative z-10 max-w-3xl">
-        <motion.div 
+      <button
+        type="button"
+        onClick={() => navigate(-1)}
+        className="fixed left-5 top-5 z-50 rounded-full border border-gold-300 bg-white/70 p-2.5 text-gold-600 backdrop-blur-sm transition-colors hover:bg-white"
+        aria-label="Volver"
+      >
+        <ArrowLeft className="h-5 w-5" />
+      </button>
+
+      <FloralCluster className="pointer-events-none absolute -right-10 top-0 w-48 rotate-180" variant="full" />
+
+      <div className="relative z-10 mx-auto max-w-2xl px-6 py-24">
+        <motion.div
           initial={{ opacity: 0, y: -20 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.8 }}
-          className="text-center mb-16"
+          transition={{ duration: 0.9 }}
+          className="text-center mb-14"
         >
-          <h1 className="text-4xl md:text-6xl text-[#D4C5B0] font-script mb-2" style={{ fontFamily: 'Great Vibes, cursive' }}>
-            Itinerario de<br /> Nuestra < br/> Boda
-          </h1>
+          <p className="eyebrow mb-3">{WEDDING.dateLong}</p>
+          <h1 className="font-script text-6xl md:text-7xl text-gold-shimmer py-1">Itinerario</h1>
+          <Divider />
         </motion.div>
 
-        <div className="relative">
-          {/* Central Line */}
-          <div className="absolute left-1/2 transform -translate-x-1/2 h-full w-0.5 bg-[#8B7355] opacity-50 hidden md:block" />
+        <ol className="relative">
+          <span className="absolute left-7 top-2 bottom-2 w-px bg-gradient-to-b from-gold-200 via-gold-400 to-gold-200 md:left-1/2" aria-hidden="true" />
 
-          {/* Timeline Events */}
-          <div className="space-y-32 md:space-y-48">
-            {timelineEvents.map((event, index) => (
-              <motion.div
-                key={index}
-                initial={{ opacity: 0, y: 50 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: false, margin: "-100px" }}
-                transition={{ duration: 0.6, delay: index * 0.1 }}
-                className={`flex flex-col md:flex-row items-center ${
-                  index % 2 === 0 ? 'md:flex-row-reverse' : ''
-                } relative`}
-              >
-                {/* Content Side */}
-                <div className={`w-full md:w-1/2 flex flex-col ${
-                  index % 2 === 0 ? 'items-center md:items-start md:pl-12' : 'items-center md:items-end md:pr-12'
-                } mb-6 md:mb-0`}>
-                  <div className="text-[#8B7355] text-2xl md:text-3xl font-serif mb-1">
-                    {event.time}
-                  </div>
-                  <div className="text-[#A69076] text-sm md:text-base uppercase tracking-widest font-light text-center md:text-left">
-                    {event.title}
-                  </div>
-                </div>
+          {timelineEvents.map(({ time, title, icon: Icon }, index) => (
+            <motion.li
+              key={title}
+              initial={{ opacity: 0, y: 30 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true, margin: "-60px" }}
+              transition={{ duration: 0.7, delay: 0.05 * index }}
+              className={`relative mb-12 flex items-center gap-6 md:gap-0 ${index % 2 ? "md:flex-row-reverse" : ""}`}
+            >
+              <div className="relative z-10 flex h-14 w-14 shrink-0 items-center justify-center rounded-full border border-gold-300 bg-ivory text-gold-500 shadow-sm md:absolute md:left-1/2 md:-translate-x-1/2">
+                <Icon className="h-6 w-6" strokeWidth={1.4} />
+              </div>
+              <div className={`md:w-1/2 ${index % 2 ? "md:pl-14 md:text-left" : "md:pr-14 md:text-right"}`}>
+                <p className="font-elegant text-2xl text-gold-600">{time}</p>
+                <p className="font-sans text-xs uppercase tracking-[0.25em] text-sand-600">{title}</p>
+              </div>
+            </motion.li>
+          ))}
+        </ol>
 
-                {/* Center Dot (Desktop) */}
-                <div className="absolute left-1/2 transform -translate-x-1/2 w-3 h-3 bg-[#8B7355] rounded-full hidden md:block" />
-                
-                {/* Connector Line (Desktop) */}
-                <div className={`absolute top-1/2 left-1/2 w-12 h-0.5 bg-[#8B7355] hidden md:block ${
-                   index % 2 === 0 ? '' : '-translate-x-full'
-                }`} />
-
-                {/* Icon Side */}
-                <div className={`w-full md:w-1/2 flex justify-center ${
-                  index % 2 === 0 ? 'md:justify-end md:pr-16' : 'md:justify-start md:pl-16'
-                }`}>
-                  {event.icon && (
-                    <motion.div 
-                    whileHover={{ scale: 1.05 }}
-                    className="w-24 h-24 md:w-32 md:h-32 relative"
-                  >
-                    <img 
-                      src={event.icon} 
-                      alt={event.title}
-                      className="w-full h-full object-contain opacity-80 hover:opacity-100 transition-opacity duration-300"
-                    />
-                  </motion.div>
-                  )}
-                </div>
-
-                {/* Mobile Connector Line (Between Items) */}
-                {index !== timelineEvents.length - 1 && (
-                  <div className="absolute left-1/2 transform -translate-x-1/2 top-full h-28 w-0.5 bg-[#8B7355] opacity-50 md:hidden" />
-                )}
-              </motion.div>
-            ))}
-          </div>
-        </div>
-        
-        <motion.div 
+        <motion.p
           initial={{ opacity: 0 }}
           whileInView={{ opacity: 1 }}
           viewport={{ once: true }}
-          transition={{ delay: 0.5, duration: 1 }}
-          className="text-center mt-20"
+          transition={{ delay: 0.3, duration: 1 }}
+          className="mt-16 text-center font-script text-5xl text-sand-600"
         >
-          <div className="text-4xl md:text-5xl text-[#D4C5B0] font-script" style={{ fontFamily: 'Great Vibes, cursive' }}>
-            Delia<br/>&<br/>Juan
-          </div>
-        </motion.div>
+          {WEDDING.couple}
+        </motion.p>
       </div>
     </div>
   );

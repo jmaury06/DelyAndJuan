@@ -1,6 +1,6 @@
 # Deli & Juan - Invitación de Boda Digital
 
-Invitación de boda interactiva con cuenta regresiva, galería de fotos y confirmación de asistencia.
+Invitación de boda interactiva con cuenta regresiva floral, detalles del evento y confirmación de asistencia.
 
 Basado originalmente en la estructura de [jessyyjairo_wedding](https://github.com/jmaury06/jessyyjairo_wedding), usado únicamente como referencia de arquitectura.
 
@@ -57,10 +57,17 @@ Variables de entorno requeridas (ver `.env.example`):
 | `VITE_SUPABASE_ANON_KEY` | Project Settings → API → Project API keys → `anon` `public` |
 | `VITE_ADMIN_EMAIL` / `VITE_ADMIN_PASSWORD` | Las define quien administra `/admin` (no es Supabase Auth) |
 
-### Buckets de Storage
+### Imágenes (locales, no Supabase)
 
-- `wedding-photos` (público): fotos de la galería. El código espera `collage-01.jpg`…`collage-10.jpg` y `photo-01.jpg`…`photo-50.jpg` en la raíz del bucket.
-- `icons` (público): iconos del itinerario e invitación — sube `1-inicio.svg`, `2-telon.svg`, `3-copas.svg`, `4-baile.svg`, `5-cena.svg`, `6-ramos.svg`, `7-dj.svg`, `8-fotos.svg`, `up-left-shadow.png`, `up-right.png`, `down-left.png`, `down-right-shadow.png`.
+Supabase se usa **solo** para la tabla `invitados` (RSVP y panel `/admin`). Todas las imágenes viven en el repo:
+
+- `src/assets/portada.webp` — foto principal (portada en arco).
+- `src/assets/qr-regalo.svg` — QR del regalo (placeholder: reemplázalo por el QR real y actualiza el import en `WeddingGift.tsx`).
+- Las flores animadas son SVG en código: `src/components/wedding/floral/`.
+
+### Contenido
+
+Todos los textos y datos de la boda (fecha, lugar, mensajes, dress code) están en `src/config/wedding.ts`.
 
 ## 🚢 Deployment
 

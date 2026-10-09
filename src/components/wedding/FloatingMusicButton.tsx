@@ -1,6 +1,5 @@
 import { motion, AnimatePresence } from "framer-motion";
 import { Music, Pause, Play } from "lucide-react";
-import { useThemeStore } from "@/stores/themeStore";
 
 interface FloatingMusicButtonProps {
   isPlaying: boolean;
@@ -9,8 +8,6 @@ interface FloatingMusicButtonProps {
 }
 
 const FloatingMusicButton = ({ isPlaying, onToggle, show }: FloatingMusicButtonProps) => {
-  const { isDarkMode } = useThemeStore();
-
   return (
     <AnimatePresence>
       {show && (
@@ -21,9 +18,8 @@ const FloatingMusicButton = ({ isPlaying, onToggle, show }: FloatingMusicButtonP
           whileHover={{ scale: 1.1 }}
           whileTap={{ scale: 0.9 }}
           onClick={onToggle}
-          className={`fixed bottom-8 right-8 z-50 ${
-            isDarkMode ? 'bg-mauve-400' : 'bg-mauve-400'
-          } text-white p-4 rounded-full shadow-2xl hover:shadow-mauve-400/50 transition-all duration-300`}
+          className="fixed bottom-6 right-6 z-50 rounded-full border-2 border-white p-4 text-white shadow-xl transition-all duration-300 hover:shadow-gold-400/50"
+          style={{ background: "linear-gradient(135deg, #C9A961, #B8954A 55%, #9A7B3A)" }}
           aria-label={isPlaying ? "Pausar música" : "Reproducir música"}
         >
           <div className="relative">

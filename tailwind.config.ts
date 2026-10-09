@@ -102,6 +102,42 @@ export default {
 					900: '#3A2C46'
 				},
 				cream: '#FBF8F3',
+				// Paleta Delia & Juan: blanco, dorado, azul cielo, beige y arena
+				ivory: '#FDFBF7',
+				gold: {
+					50: '#FBF7EC',
+					100: '#F5ECD3',
+					200: '#EBDDB0',
+					300: '#DCC58A',
+					400: '#C9A961',
+					500: '#B8954A',
+					600: '#9A7B3A',
+					700: '#7A6230'
+				},
+				celeste: {
+					50: '#F4F8FC',
+					100: '#E5EFF8',
+					200: '#CFE1F1',
+					300: '#B3CEE8',
+					400: '#93B7DB',
+					500: '#7399C4',
+					600: '#5A7DA6'
+				},
+				beige: {
+					50: '#FCF9F4',
+					100: '#F7F0E5',
+					200: '#EFE4D2',
+					300: '#E3D3B9'
+				},
+				sand: {
+					100: '#F1E7D7',
+					200: '#E4D3B6',
+					300: '#D5BD96',
+					400: '#C3A57A',
+					500: '#A88A62',
+					600: '#86704F',
+					700: '#5E4F3C'
+				},
 				peach: {
 					50: '#FEF9F5',
 					100: '#FDF3EB',
@@ -140,9 +176,9 @@ export default {
 				}
 			},
 			fontFamily: {
-				elegant: ['Playfair Display', 'serif'],
-				script: ['Dancing Script', 'cursive'],
-				sans: ['Inter', 'system-ui', 'sans-serif']
+				elegant: ['Cormorant Garamond', 'Playfair Display', 'serif'],
+				script: ['Great Vibes', 'cursive'],
+				sans: ['Jost', 'Inter', 'system-ui', 'sans-serif']
 			},
 			borderRadius: {
 				lg: 'var(--radius)',
