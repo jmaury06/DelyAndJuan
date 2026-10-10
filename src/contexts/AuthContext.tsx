@@ -34,7 +34,15 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
     const adminEmail = import.meta.env.VITE_ADMIN_EMAIL;
     const adminPassword = import.meta.env.VITE_ADMIN_PASSWORD;
 
-    if (email === adminEmail && password === adminPassword) {
+    // Sin variables configuradas nadie puede entrar
+    if (!adminEmail || !adminPassword) {
+      console.warn('Faltan VITE_ADMIN_EMAIL / VITE_ADMIN_PASSWORD: el panel /admin está desactivado.');
+      return false;
+    }
+
+    // El correo ignora mayúsculas y espacios (los teclados móviles suelen agregarlos)
+    const sameEmail = email.trim().toLowerCase() === adminEmail.trim().toLowerCase();
+    if (sameEmail && password === adminPassword) {
       setIsAuthenticated(true);
       localStorage.setItem('wedding-auth', 'authenticated');
       return true;
